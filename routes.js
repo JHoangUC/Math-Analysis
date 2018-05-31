@@ -21,8 +21,9 @@ const myDatabase = require('./myDatabase');
 
 let db = new myDatabase();
 
-var lev1 =[5,8,11,14,17];
-var lev2 =[2,4,6,8,10];
+var lev1 =[7,12,17,22,27];
+var lev2 =[12,36,108,324,972];
+var lev3 =[-3,9,-27,81,-243];
 
 //add or modify.  Use addObject and no need for index.
 //                ident should be part of object.
@@ -40,24 +41,25 @@ router.get("/userInfo",function(req,res){
 var i = 0;
 var level1 = true
 var level2 = false
-
+var level3 = false
+var level4 = false
 router.post('/value', function(req, res){
-//console.log("d routes " + req.body.value);
-
+if(req.body.gameOver == "true"){
+	console.log("gameover");
+	i=0;
+	level1 = true;
+}
 
 if(level1){
 	if(i < lev1.length)
 	{
 		console.log(req.body.value + "-value");
 		console.log(i);
-		//console.log(lev1[i] + "before");
 		if(req.body.value == lev1[i])
 		{
-		//	console.log(lev1[i] + "after");
-
 			console.log("matched" + req.body.value + " s "+ lev1[i]);
 			i++;
-			if(req.body.value == "17"){
+			if(req.body.value == "27"){
 				level1 = false;
 				level2 = true;
 				i = 0;
@@ -67,32 +69,46 @@ if(level1){
 
 		}
 	}
-	// else{
-	// 	level1 = false;
-	// 	level2 = true;
-	// 	i = 0;
-	// 	console.log("returning");
-	// 	return res.json("done")
-	// }
 }
 ///////////////////////
 else if(level2){
 	if(i < lev2.length)
 	{
-		console.log(req.body.value + "-value");
-		console.log(i);
+		console.log(req.body.value + "=" + lev2[i]);
+
 		if(req.body.value == lev2[i])
 		{
-
 			console.log("matched" + req.body.value + " s "+ lev2[i]);
 			i++;
+			if(req.body.value == "972"){
+				level2 = false;
+				level3 = true;
+				i = 0;
+				console.log("returning");
+			}
 			return res.json(req.body.value);
 
 		}
 	}
-	else{
-		level2 = false;
-		level3 = true;
+}
+else if(level3){
+	if(i < lev3.length)
+	{
+		console.log(req.body.value + "=" + lev3[i]);
+
+		if(req.body.value == lev3[i])
+		{
+			console.log("matched" + req.body.value + " s "+ lev3[i]);
+			i++;
+			if(req.body.value == "-243"){
+				level3 = false;
+				level4 = true;
+				i = 0;
+				console.log("returning");
+			}
+			return res.json(req.body.value);
+
+		}
 	}
 }
 });
